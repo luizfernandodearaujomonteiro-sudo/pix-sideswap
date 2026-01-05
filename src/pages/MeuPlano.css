@@ -1,0 +1,75 @@
+/* ========== PLANO CARD ========== */
+.plano-card {
+  background: linear-gradient(135deg, var(--accent-soft), var(--purple-soft));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.plano-card-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.plano-card-nome {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.plano-card-valor {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.plano-card-valor span:last-child {
+  font-size: 16px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.plano-card-info {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.plano-card-info-item {
+  text-align: center;
+}
+
+.plano-card-info-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.plano-card-info-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.plano-card-info-value.success { color: var(--accent); }
+.plano-card-info-value.warning { color: var(--warning); }
+.plano-card-info-value.danger { color: var(--danger); }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .plano-card {
+    padding: 20px;
+  }
+
+  .plano-card-info {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .plano-card-valor {
+    font-size: 28px;
+  }
+}

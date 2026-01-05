@@ -1,0 +1,339 @@
+/* ========== DETALHES ADMIN ========== */
+.detalhes-admin {
+  padding: 10px 0;
+}
+
+.detalhe-header-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.revendedor-nome {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ========== VALORES GRID ========== */
+.valores-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.valor-box {
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.valor-box label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.valor-box span {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.valor-box.taxa {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.valor-box.taxa span {
+  color: var(--warning);
+}
+
+.valor-box.recebido {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.valor-box.recebido span {
+  color: var(--accent);
+}
+
+/* ========== INFO BOX ========== */
+.info-box {
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.info-box label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.info-box code {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  word-break: break-all;
+  background: var(--bg-input);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.codigo-barras-box {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--info);
+}
+
+.codigo-barras-codigo {
+  font-size: 12px !important;
+}
+
+.fatura-box {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid var(--purple);
+}
+
+.obs-box {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid var(--warning);
+}
+
+.comprovante-anexado {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--accent);
+}
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn-download:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.btn-download.success {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ========== PROCESSAR SOLICITAÇÃO ========== */
+.processar-solicitacao {
+  padding: 10px 0;
+}
+
+.resumo-solicitacao {
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.resumo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  font-weight: 600;
+}
+
+.resumo-content {
+  padding: 16px;
+}
+
+.resumo-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.resumo-row:last-child {
+  border-bottom: none;
+}
+
+.resumo-row.destaque {
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 2px solid var(--accent);
+}
+
+/* ========== DADOS PAGAMENTO ========== */
+.dados-pagamento {
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.dados-pagamento h4 {
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.dado-item {
+  margin-bottom: 16px;
+}
+
+.dado-item:last-child {
+  margin-bottom: 0;
+}
+
+.dado-item label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.dado-item code {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  word-break: break-all;
+  background: var(--bg-input);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.codigo-com-botao {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ========== FORM PROCESSAMENTO ========== */
+.form-processamento {
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.form-processamento .form-group {
+  margin-bottom: 16px;
+}
+
+.form-processamento .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-processamento textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.file-upload {
+  position: relative;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: var(--bg-input);
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-upload-label:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.file-selected {
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: 13px;
+}
+
+/* ========== AÇÕES PROCESSAMENTO ========== */
+.acoes-processamento {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.acoes-processamento button {
+  flex: 1;
+  min-width: 150px;
+}
+
+/* ========== BOTÕES VARIANTES ========== */
+.btn-info {
+  background: var(--info) !important;
+  color: #fff !important;
+}
+
+.btn-info:hover {
+  background: #2563eb !important;
+}
+
+.btn-success {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+.btn-success:hover {
+  background: var(--accent-hover) !important;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .valores-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .acoes-processamento {
+    flex-direction: column;
+  }
+  
+  .acoes-processamento button {
+    width: 100%;
+  }
+  
+  .detalhe-header-admin {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
