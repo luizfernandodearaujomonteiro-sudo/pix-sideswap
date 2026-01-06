@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { PageWrapper } from '../components/Layout'
 import { Card, Button, Badge, DataTable, EmptyState, Loading, Modal } from '../components/UI'
 import { supabaseRequest, getConfiguracoes } from '../services/supabase'
-import { formatMoney, formatDateTime, copyToClipboard } from '../utils/helpers'
+import { formatMoney, formatDateTime, copyToClipboard, downloadBase64File } from '../utils/helpers'
 import toast from 'react-hot-toast'
 import './PagarContas.css'
 
@@ -554,16 +554,17 @@ export function PagarContas() {
               <div className="detalhe-item full">
                 <label>Fatura Anexada:</label>
                 {modalDetalhes.fatura_base64 ? (
-                  <a 
-                    href={modalDetalhes.fatura_base64} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    download={modalDetalhes.fatura_nome}
-                    className="btn-comprovante"
-                    style={{ marginTop: '8px', display: 'inline-block' }}
+                  <Button 
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      downloadBase64File(modalDetalhes.fatura_base64, modalDetalhes.fatura_nome)
+                      toast.success('Download iniciado!')
+                    }}
+                    style={{ marginTop: '8px' }}
                   >
                     📎 Baixar {modalDetalhes.fatura_nome}
-                  </a>
+                  </Button>
                 ) : (
                   <span>📎 {modalDetalhes.fatura_nome}</span>
                 )}
@@ -592,14 +593,15 @@ export function PagarContas() {
             {modalDetalhes.status === 'pago' && modalDetalhes.comprovante_base64 && (
               <div className="detalhe-item full comprovante-box">
                 <label>✅ Comprovante de Pagamento:</label>
-                <a 
-                  href={modalDetalhes.comprovante_base64} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="btn-comprovante"
+                <Button 
+                  variant="success"
+                  onClick={() => {
+                    downloadBase64File(modalDetalhes.comprovante_base64, modalDetalhes.comprovante_nome || 'comprovante.pdf')
+                    toast.success('Download iniciado!')
+                  }}
                 >
-                  📄 Ver Comprovante
-                </a>
+                  📄 Baixar Comprovante
+                </Button>
               </div>
             )}
             

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { PageWrapper } from '../components/Layout'
 import { Card, Button, Badge, DataTable, EmptyState, Loading, Modal, StatCard } from '../components/UI'
 import { supabaseRequest } from '../services/supabase'
-import { formatMoney, formatDateTime } from '../utils/helpers'
+import { formatMoney, formatDateTime, downloadBase64File } from '../utils/helpers'
 import toast from 'react-hot-toast'
 import './SolicitacoesPagamento.css'
 
@@ -304,15 +304,15 @@ export function SolicitacoesPagamento() {
             {modalDetalhes.fatura_base64 && (
               <div className="info-box fatura-box">
                 <label>📎 Fatura/Boleto Anexado:</label>
-                <a 
-                  href={modalDetalhes.fatura_base64} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="btn-download"
-                  download={modalDetalhes.fatura_nome}
+                <Button 
+                  variant="secondary"
+                  onClick={() => {
+                    downloadBase64File(modalDetalhes.fatura_base64, modalDetalhes.fatura_nome)
+                    toast.success('Download iniciado!')
+                  }}
                 >
                   📥 Baixar {modalDetalhes.fatura_nome}
-                </a>
+                </Button>
               </div>
             )}
             
@@ -338,14 +338,15 @@ export function SolicitacoesPagamento() {
             {modalDetalhes.comprovante_base64 && (
               <div className="info-box comprovante-anexado">
                 <label>✅ Comprovante de Pagamento:</label>
-                <a 
-                  href={modalDetalhes.comprovante_base64} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="btn-download success"
+                <Button 
+                  variant="success"
+                  onClick={() => {
+                    downloadBase64File(modalDetalhes.comprovante_base64, modalDetalhes.comprovante_nome || 'comprovante.pdf')
+                    toast.success('Download iniciado!')
+                  }}
                 >
-                  📄 Ver Comprovante
-                </a>
+                  📄 Baixar Comprovante
+                </Button>
               </div>
             )}
           </div>
@@ -410,15 +411,16 @@ export function SolicitacoesPagamento() {
               {modalProcessar.fatura_base64 && (
                 <div className="dado-item">
                   <label>Fatura Anexada:</label>
-                  <a 
-                    href={modalProcessar.fatura_base64} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="btn-download"
-                    download={modalProcessar.fatura_nome}
+                  <Button 
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      downloadBase64File(modalProcessar.fatura_base64, modalProcessar.fatura_nome)
+                      toast.success('Download iniciado!')
+                    }}
                   >
                     📥 Baixar Fatura ({modalProcessar.fatura_nome})
-                  </a>
+                  </Button>
                 </div>
               )}
               

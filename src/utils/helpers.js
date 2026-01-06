@@ -65,6 +65,26 @@ export async function copyToClipboard(text) {
   }
 }
 
+// Download arquivo base64
+export function downloadBase64File(base64Data, fileName) {
+  try {
+    // Criar link temporário
+    const link = document.createElement('a')
+    link.href = base64Data
+    link.download = fileName || 'arquivo'
+    
+    // Adicionar ao DOM, clicar e remover
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    return true
+  } catch (error) {
+    console.error('Erro ao baixar arquivo:', error)
+    return false
+  }
+}
+
 // Calcular novo vencimento (adicionar meses)
 export function calcularNovoVencimento(dataAtual, meses = 1) {
   const data = new Date(dataAtual + 'T00:00:00')
