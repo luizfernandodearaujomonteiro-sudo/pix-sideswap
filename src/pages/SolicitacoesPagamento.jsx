@@ -279,7 +279,7 @@ export function SolicitacoesPagamento() {
             </div>
             
             <div className="info-box">
-              <label>TX ID do Revendedor:</label>
+              <label>ID de Transação do Revendedor:</label>
               <code>{modalDetalhes.transaction_id_revendedor}</code>
             </div>
             

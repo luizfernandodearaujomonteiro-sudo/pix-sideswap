@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
+import { supabaseRequest } from '../../services/supabase'
 import { 
   LayoutDashboard, 
   Users, 
@@ -17,6 +19,29 @@ import './Sidebar.css'
 
 export function Sidebar({ isOpen, onClose }) {
   const { user, isAdmin } = useAuth()
+  const [solicitacoesPendentes, setSolicitacoesPendentes] = useState(0)
+  
+  // Buscar quantidade de solicitações pendentes (apenas para admin)
+  useEffect(() => {
+    if (isAdmin()) {
+      loadSolicitacoesPendentes()
+      
+      // Atualizar a cada 30 segundos
+      const interval = setInterval(loadSolicitacoesPendentes, 30000)
+      return () => clearInterval(interval)
+    }
+  }, [])
+  
+  const loadSolicitacoesPendentes = async () => {
+    try {
+      const data = await supabaseRequest(
+        'solicitacoes_pagamento?status=eq.pendente&select=id'
+      )
+      setSolicitacoesPendentes(data?.length || 0)
+    } catch (error) {
+      console.error('Erro ao buscar solicitações:', error)
+    }
+  }
   
   // Menu para Admin
   const adminMenu = [
@@ -27,7 +52,7 @@ export function Sidebar({ isOpen, onClose }) {
       { path: '/comissoes', icon: <Wallet size={18} />, label: 'Comissões' },
       { path: '/resumo-revendedores', icon: <BarChart3 size={18} />, label: 'Resumo Revendedores' },
       { path: '/renovacoes', icon: <RefreshCw size={18} />, label: 'Renovações' },
-      { path: '/solicitacoes-pagamento', icon: <CreditCard size={18} />, label: '💳 Pagar Contas' },
+      { path: '/solicitacoes-pagamento', icon: <CreditCard size={18} />, label: '💳 Pagar Contas', badge: solicitacoesPendentes },
     ]},
     { section: 'Configurações', items: [
       { path: '/planos', icon: <ClipboardList size={18} />, label: 'Planos' },
@@ -90,6 +115,9 @@ export function Sidebar({ isOpen, onClose }) {
                 >
                   <span className="nav-item-icon">{item.icon}</span>
                   {item.label}
+                  {item.badge > 0 && (
+                    <span className="nav-badge">{item.badge}</span>
+                  )}
                 </NavLink>
               ))}
             </div>

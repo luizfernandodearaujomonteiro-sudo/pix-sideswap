@@ -10,6 +10,7 @@ export function Configuracoes() {
   const { user, isAdmin } = useAuth()
   const [loading, setLoading] = useState(true)
   const [apiKey, setApiKey] = useState('')
+  const [webhookNotificacao, setWebhookNotificacao] = useState('')
   
   useEffect(() => {
     loadConfigs()
@@ -22,6 +23,7 @@ export function Configuracoes() {
       if (isAdmin()) {
         const configs = await getConfiguracoes()
         setApiKey(configs.api_key || '')
+        setWebhookNotificacao(configs.webhook_notificacao || '')
       } else {
         // Revendedor: buscar API key do próprio registro
         const associadoData = await supabaseRequest(
@@ -44,6 +46,7 @@ export function Configuracoes() {
     try {
       if (isAdmin()) {
         await updateConfiguracao('api_key', apiKey)
+        await updateConfiguracao('webhook_notificacao', webhookNotificacao)
       } else {
         // Revendedor: salvar API key no próprio registro
         await supabaseRequest(
@@ -89,6 +92,37 @@ export function Configuracoes() {
             />
           </div>
         </div>
+        
+        {isAdmin() && (
+          <div className="config-section" style={{ marginTop: '32px' }}>
+            <div style={{ 
+              fontSize: '14px', 
+              fontWeight: '600', 
+              color: 'var(--text-secondary)',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              🔔 Notificações
+              <span style={{ flex: 1, height: '1px', background: 'var(--border)' }}></span>
+            </div>
+            
+            <div className="form-group">
+              <label>Webhook de Notificação</label>
+              <input 
+                type="text" 
+                className="form-input" 
+                placeholder="https://seu-webhook.com/notificacao"
+                value={webhookNotificacao}
+                onChange={(e) => setWebhookNotificacao(e.target.value)}
+              />
+              <small style={{ color: 'var(--text-muted)', fontSize: '12px', marginTop: '8px', display: 'block' }}>
+                Receba notificações quando revendedores criarem solicitações de pagamento de contas.
+              </small>
+            </div>
+          </div>
+        )}
         
         <div className="config-section" style={{ marginTop: '32px' }}>
           <div style={{ 

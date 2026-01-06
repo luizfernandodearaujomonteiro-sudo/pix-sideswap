@@ -117,7 +117,7 @@ export function PagarContas() {
   
   const handleEnviarSolicitacao = async () => {
     if (!form.transactionId) {
-      toast.error('Informe o Transaction ID do pagamento')
+      toast.error('Informe o ID de Transação')
       return
     }
     
@@ -143,6 +143,31 @@ export function PagarContas() {
       
       if (result) {
         toast.success('Solicitação enviada com sucesso!')
+        
+        // Enviar notificação para webhook do admin
+        try {
+          const configs = await getConfiguracoes()
+          const webhookUrl = configs.webhook_notificacao
+          
+          if (webhookUrl) {
+            await fetch(webhookUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                tipo: 'nova_solicitacao_pagamento',
+                solicitacao_id: result[0]?.id,
+                revendedor: user.nome,
+                valor_conta: parseFloat(form.valorConta),
+                valor_com_taxa: form.valorComTaxa,
+                codigo_barras: form.codigoBarras || null,
+                observacoes: form.observacoes || null,
+                data: new Date().toISOString()
+              })
+            })
+          }
+        } catch (webhookError) {
+          console.log('Webhook não enviado:', webhookError)
+        }
         
         // Resetar form
         setForm({
@@ -387,14 +412,14 @@ export function PagarContas() {
         {step === 4 && (
           <div className="step-content">
             <h3>✅ Confirmar Solicitação</h3>
-            <p className="step-description">Informe o ID da Transação Gerado ao Enviar o Recurso.</p>
+            <p className="step-description">Informe o ID da transação que você realizou.</p>
             
             <div className="form-group">
-              <label>Transaction ID (TX ID)</label>
+              <label>ID de Transação</label>
               <input
                 type="text"
                 className="form-input"
-                placeholder="Cole aqui o ID da Transação"
+                placeholder="Cole aqui o ID da transação"
                 value={form.transactionId}
                 onChange={(e) => setForm(prev => ({ ...prev, transactionId: e.target.value }))}
               />
@@ -514,7 +539,7 @@ export function PagarContas() {
             </div>
             
             <div className="detalhe-item full">
-              <label>TX ID (seu envio):</label>
+              <label>ID de Transação:</label>
               <code>{modalDetalhes.transaction_id_revendedor}</code>
             </div>
             
@@ -528,7 +553,20 @@ export function PagarContas() {
             {modalDetalhes.fatura_nome && (
               <div className="detalhe-item full">
                 <label>Fatura Anexada:</label>
-                <span>📎 {modalDetalhes.fatura_nome}</span>
+                {modalDetalhes.fatura_base64 ? (
+                  <a 
+                    href={modalDetalhes.fatura_base64} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    download={modalDetalhes.fatura_nome}
+                    className="btn-comprovante"
+                    style={{ marginTop: '8px', display: 'inline-block' }}
+                  >
+                    📎 Baixar {modalDetalhes.fatura_nome}
+                  </a>
+                ) : (
+                  <span>📎 {modalDetalhes.fatura_nome}</span>
+                )}
               </div>
             )}
             
