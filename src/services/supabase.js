@@ -50,12 +50,23 @@ export async function getConfiguracoes() {
 }
 
 export async function updateConfiguracao(chave, valor) {
-  const { error } = await supabase
+  // Primeiro tenta atualizar
+  const { data, error: updateError } = await supabase
     .from('master_configuracoes')
     .update({ valor })
     .eq('chave', chave)
+    .select()
   
-  return !error
+  // Se não atualizou nenhum registro (chave não existe), insere
+  if (!updateError && (!data || data.length === 0)) {
+    const { error: insertError } = await supabase
+      .from('master_configuracoes')
+      .insert({ chave, valor })
+    
+    return !insertError
+  }
+  
+  return !updateError
 }
 
 // ============ PLANOS ============

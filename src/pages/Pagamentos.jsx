@@ -36,25 +36,39 @@ export function Pagamentos() {
   }
   
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+  if (e) e.preventDefault()
+  setLoading(true)
+  
+  try {
+    await Promise.all([
+      updateConfiguracao('pix_tipo_chave', form.tipoChave),
+      updateConfiguracao('pix_chave', form.chavePix),
+      updateConfiguracao('pix_beneficiario', form.beneficiario),
+      updateConfiguracao('carteira_liquid', form.carteiraLiquid)
+    ])
     
-    try {
-      await Promise.all([
-        updateConfiguracao('pix_tipo_chave', form.tipoChave),
-        updateConfiguracao('pix_chave', form.chavePix),
-        updateConfiguracao('pix_beneficiario', form.beneficiario),
-        updateConfiguracao('carteira_liquid', form.carteiraLiquid)
-      ])
-      
-      toast.success('Forma de pagamento salva com sucesso!')
-    } catch (error) {
-      console.error('Erro ao salvar:', error)
-      toast.error('Erro ao salvar configurações')
-    }
-    
-    setLoading(false)
+    toast.success('Configurações salvas com sucesso!')
+  } catch (error) {
+    console.error('Erro ao salvar:', error)
+    toast.error('Erro ao salvar configurações')
   }
+  
+  setLoading(false)
+}
+
+const handleSalvarCarteira = async () => {
+  setLoading(true)
+  
+  try {
+    await updateConfiguracao('carteira_liquid', form.carteiraLiquid)
+    toast.success('Carteira Liquid salva com sucesso!')
+  } catch (error) {
+    console.error('Erro ao salvar carteira:', error)
+    toast.error('Erro ao salvar carteira')
+  }
+  
+  setLoading(false)
+}
   
   return (
     <PageWrapper title="Forma de Pagamento" subtitle="Configurar dados PIX e Carteira">
@@ -130,7 +144,7 @@ export function Pagamentos() {
           />
         </div>
         
-        <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+        <Button variant="primary" onClick={handleSalvarCarteira} disabled={loading}>
           💾 {loading ? 'Salvando...' : 'Salvar Carteira'}
         </Button>
       </Card>
