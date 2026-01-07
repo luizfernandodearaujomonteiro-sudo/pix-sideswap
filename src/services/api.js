@@ -14,20 +14,34 @@ export async function gerarPix(nome, valor, apiKey = '') {
     })
     
     const rawData = await response.json()
+    console.log('Resposta da API PIX:', rawData)
     
-    // Extrair dados (N8N pode retornar array)
+    // Extrair dados (N8N pode retornar diferentes estruturas)
     let data = rawData
+    
+    // Se for array, pega o primeiro item
     if (Array.isArray(rawData) && rawData[0]) {
       data = rawData[0]
-      if (data.data) data = data.data
     }
+    
+    // Se tiver .data, usa ele
+    if (data.data) {
+      data = data.data
+    }
+    
+    // Se ainda tiver .data aninhado
+    if (data.data) {
+      data = data.data
+    }
+    
+    console.log('Dados extraídos:', data)
     
     return {
       success: true,
-      qrCode: data.qr_code || data.qr_code_imagem,
+      qrCode: data.qr_code || data.qr_code_imagem || data.qrCode,
       pixId: data.id,
-      transactionId: data.depix_transaction_id,
-      copiaCola: data.qr_code_text,
+      transactionId: data.depix_transaction_id || data.transaction_id,
+      copiaCola: data.qr_code_text || data.pix_copia_cola || data.copiaCola || '',
       expiresAt: data.qr_code_expires_at
     }
   } catch (error) {
