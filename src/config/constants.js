@@ -9,7 +9,7 @@ export const CONFIG = {
     verificarTransacao: 'https://n8n.ftcplay.com/webhook/verificar_id_transacao'
   },
   
-  URL_PAINEL_CLIENTE: 'https://ftcplay.com/gestor/pix/cliente/'
+  URL_PAINEL_CLIENTE: 'http://geradordepix.ftcplay.com'
 }
 
 // Roles do sistema

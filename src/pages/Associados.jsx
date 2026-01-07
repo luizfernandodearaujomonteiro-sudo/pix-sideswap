@@ -128,7 +128,7 @@ export function Associados() {
 📅 *Vencimento:* ${formatDate(form.data_vencimento)}
 
 🔗 *Acesse seu painel:*
-${CONFIG.URL_PAINEL_CLIENTE}${associadoData.usuario}/
+${CONFIG.URL_PAINEL_CLIENTE}
 
 ⚠️ _No primeiro acesso, você deverá trocar sua senha._
 
@@ -175,7 +175,7 @@ Qualquer dúvida, estou à disposição! 😊`
 📅 *Vencimento:* ${formatDate(associado.data_vencimento)}
 
 🔗 *Acesse seu painel:*
-${CONFIG.URL_PAINEL_CLIENTE}${associado.usuario}/
+${CONFIG.URL_PAINEL_CLIENTE}
 
 Qualquer dúvida, estou à disposição! 😊`
 
