@@ -26,11 +26,9 @@ export function Configuracoes() {
         setWebhookNotificacao(configs.webhook_notificacao || '')
       } else {
         // Revendedor: buscar API key do próprio registro
-        console.log('Buscando config para revendedor ID:', user.id)
         const associadoData = await supabaseRequest(
           `master_associados?id=eq.${user.id}&select=*`
         )
-        console.log('Dados do associado:', associadoData)
         if (associadoData && associadoData[0]) {
           setApiKey(associadoData[0].api_key || '')
         }
@@ -51,13 +49,11 @@ export function Configuracoes() {
         await updateConfiguracao('webhook_notificacao', webhookNotificacao)
       } else {
         // Revendedor: salvar API key no próprio registro
-        console.log('Salvando API key para revendedor ID:', user.id)
-        const result = await supabaseRequest(
+        await supabaseRequest(
           `master_associados?id=eq.${user.id}`,
           'PATCH',
           { api_key: apiKey }
         )
-        console.log('Resultado do save:', result)
       }
       toast.success('Configurações salvas com sucesso!')
     } catch (error) {
@@ -68,8 +64,37 @@ export function Configuracoes() {
     setLoading(false)
   }
   
+  // ============ PÁGINA DO REVENDEDOR ============
+  if (!isAdmin()) {
+    return (
+      <PageWrapper title="Configurações" subtitle="Configurações da sua conta">
+        <Card title="🔑 Minha Chave API">
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '20px', fontSize: '14px' }}>
+            Configure sua chave API para integração com a plataforma.
+          </p>
+          
+          <div className="form-group">
+            <label>Chave API</label>
+            <input 
+              type="text" 
+              className="form-input" 
+              placeholder="Cole sua chave API aqui"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+            />
+          </div>
+          
+          <Button variant="primary" onClick={handleSave} disabled={loading}>
+            💾 {loading ? 'Salvando...' : 'Salvar Configurações'}
+          </Button>
+        </Card>
+      </PageWrapper>
+    )
+  }
+  
+  // ============ PÁGINA DO ADMIN ============
   return (
-    <PageWrapper title="Configurações" subtitle="Configurações da API">
+    <PageWrapper title="Configurações" subtitle="Configurações do Sistema">
       <Card title="Configurações da API">
         <div className="config-section">
           <div style={{ 
@@ -97,36 +122,34 @@ export function Configuracoes() {
           </div>
         </div>
         
-        {isAdmin() && (
-          <div className="config-section" style={{ marginTop: '32px' }}>
-            <div style={{ 
-              fontSize: '14px', 
-              fontWeight: '600', 
-              color: 'var(--text-secondary)',
-              marginBottom: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              🔔 Notificações
-              <span style={{ flex: 1, height: '1px', background: 'var(--border)' }}></span>
-            </div>
-            
-            <div className="form-group">
-              <label>Webhook de Notificação</label>
-              <input 
-                type="text" 
-                className="form-input" 
-                placeholder="https://seu-webhook.com/notificacao"
-                value={webhookNotificacao}
-                onChange={(e) => setWebhookNotificacao(e.target.value)}
-              />
-              <small style={{ color: 'var(--text-muted)', fontSize: '12px', marginTop: '8px', display: 'block' }}>
-                Receba notificações quando revendedores criarem solicitações de pagamento de contas.
-              </small>
-            </div>
+        <div className="config-section" style={{ marginTop: '32px' }}>
+          <div style={{ 
+            fontSize: '14px', 
+            fontWeight: '600', 
+            color: 'var(--text-secondary)',
+            marginBottom: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            🔔 Notificações
+            <span style={{ flex: 1, height: '1px', background: 'var(--border)' }}></span>
           </div>
-        )}
+          
+          <div className="form-group">
+            <label>Webhook de Notificação</label>
+            <input 
+              type="text" 
+              className="form-input" 
+              placeholder="https://seu-webhook.com/notificacao"
+              value={webhookNotificacao}
+              onChange={(e) => setWebhookNotificacao(e.target.value)}
+            />
+            <small style={{ color: 'var(--text-muted)', fontSize: '12px', marginTop: '8px', display: 'block' }}>
+              Receba notificações quando revendedores criarem solicitações de pagamento de contas.
+            </small>
+          </div>
+        </div>
         
         <div className="config-section" style={{ marginTop: '32px' }}>
           <div style={{ 
