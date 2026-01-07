@@ -275,3 +275,31 @@ export async function createLogPix(log) {
   }
   return data?.[0]
 }
+
+// ============ API KEY HELPER ============
+// Função para buscar a API key correta (admin ou revendedor)
+export async function getApiKey(user, isAdmin) {
+  try {
+    if (isAdmin) {
+      // Admin: buscar da tabela de configurações
+      const configs = await getConfiguracoes()
+      return configs.api_key || ''
+    } else {
+      // Revendedor: buscar a API key do próprio cadastro
+      const { data, error } = await supabase
+        .from('master_associados')
+        .select('api_key')
+        .eq('id', user.id)
+        .single()
+      
+      if (error || !data) {
+        console.error('Erro ao buscar API key do revendedor:', error)
+        return ''
+      }
+      return data.api_key || ''
+    }
+  } catch (error) {
+    console.error('Erro ao buscar API key:', error)
+    return ''
+  }
+}

@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { PageWrapper } from '../components/Layout'
 import { Card, DataTable, StatCard, Badge, EmptyState, Loading, Pagination, Button } from '../components/UI'
 import { buscarTransacoesPagas, traduzirStatus } from '../services/api'
-import { getConfiguracoes, getVendasRevendedor } from '../services/supabase'
+import { getApiKey, getVendasRevendedor } from '../services/supabase'
 import { formatMoney, formatDateTime } from '../utils/helpers'
 import toast from 'react-hot-toast'
 
@@ -24,8 +24,7 @@ export function Vendas() {
     try {
       if (isAdmin()) {
         // Admin busca da API externa
-        const configs = await getConfiguracoes()
-        const apiKey = configs.api_key || ''
+        const apiKey = await getApiKey(user, true)
         
         if (!apiKey && !silencioso) {
           toast.error('Configure sua API Key em Configurações!')

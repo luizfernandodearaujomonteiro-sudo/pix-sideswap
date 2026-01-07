@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { PageWrapper } from '../components/Layout'
 import { Card, Button, CopyBox } from '../components/UI'
 import { gerarPix } from '../services/api'
-import { supabaseRequest, getConfiguracoes } from '../services/supabase'
+import { supabaseRequest, getApiKey } from '../services/supabase'
 import { formatMoney, copyToClipboard } from '../utils/helpers'
 import toast from 'react-hot-toast'
 import './GerarPix.css'
@@ -29,9 +29,14 @@ export function GerarPix() {
     setResultado(null)
     
     try {
-      // Buscar API key
-      const configs = await getConfiguracoes()
-      const apiKey = configs.api_key || ''
+      // Buscar API key correta (admin ou revendedor)
+      const apiKey = await getApiKey(user, isAdmin())
+      
+      if (!apiKey) {
+        toast.error('API Key não configurada! Vá em Configurações para adicionar.')
+        setLoading(false)
+        return
+      }
       
       const result = await gerarPix(form.nome, form.valor, apiKey)
       

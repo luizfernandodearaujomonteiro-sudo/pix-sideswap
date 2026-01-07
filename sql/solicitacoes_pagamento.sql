@@ -56,7 +56,7 @@ COMMENT ON COLUMN solicitacoes_pagamento.valor_com_taxa IS 'Valor com taxa de 3%
 COMMENT ON COLUMN solicitacoes_pagamento.codigo_barras IS 'Código de barras do boleto';
 COMMENT ON COLUMN solicitacoes_pagamento.fatura_base64 IS 'Arquivo da fatura em base64';
 COMMENT ON COLUMN solicitacoes_pagamento.fatura_nome IS 'Nome do arquivo da fatura';
-COMMENT ON COLUMN solicitacoes_pagamento.transaction_id_revendedor IS 'TX ID do PIX enviado pelo revendedor';
+COMMENT ON COLUMN solicitacoes_pagamento.transaction_id_revendedor IS 'ID de transação informado pelo revendedor';
 COMMENT ON COLUMN solicitacoes_pagamento.observacoes_revendedor IS 'Observações do revendedor (nome destinatário, etc)';
 COMMENT ON COLUMN solicitacoes_pagamento.status IS 'Status: pendente, em_processamento, pago, cancelado';
 COMMENT ON COLUMN solicitacoes_pagamento.observacoes_admin IS 'Observações do admin';

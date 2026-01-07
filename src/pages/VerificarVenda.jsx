@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { PageWrapper } from '../components/Layout'
 import { Card, Badge, Button } from '../components/UI'
 import { verificarTransacao, traduzirStatus } from '../services/api'
-import { getConfiguracoes } from '../services/supabase'
+import { getApiKey } from '../services/supabase'
 import { formatMoney } from '../utils/helpers'
 import toast from 'react-hot-toast'
 
@@ -25,17 +25,8 @@ export function VerificarVenda() {
     setResultado(null)
     
     try {
-      // Buscar API key
-      let apiKey = ''
-      if (isAdmin()) {
-        const configs = await getConfiguracoes()
-        apiKey = configs.api_key || ''
-      } else {
-        // Revendedor usa própria API key (se tiver)
-        // Por enquanto usa a config geral
-        const configs = await getConfiguracoes()
-        apiKey = configs.api_key || ''
-      }
+      // Buscar API key correta (admin ou revendedor)
+      const apiKey = await getApiKey(user, isAdmin())
       
       const result = await verificarTransacao(idTransacao, apiKey)
       
