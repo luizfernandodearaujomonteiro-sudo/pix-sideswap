@@ -41,7 +41,7 @@ export async function gerarPix(nome, valor, apiKey = '') {
       qrCode: data.qr_code || data.qr_code_imagem || data.qrCode,
       pixId: data.id,
       transactionId: data.depix_transaction_id || data.transaction_id,
-      copiaCola: data.qr_code_text || data.pix_copia_cola || data.copiaCola || '',
+      copiaCola: data.pix || data.pix_copia_cola || data.copiaCola || '',
       expiresAt: data.qr_code_expires_at
     }
   } catch (error) {
