@@ -29,19 +29,14 @@ export async function gerarPix(nome, valor, apiKey = '') {
       data = data.data
     }
     
-    // Se ainda tiver .data aninhado
-    if (data.data) {
-      data = data.data
-    }
-    
     console.log('Dados extraídos:', data)
     
     return {
       success: true,
-      qrCode: data.qr_code || data.qr_code_imagem || data.qrCode,
-      pixId: data.id,
-      transactionId: data.depix_transaction_id || data.transaction_id,
-      copiaCola: data.pix || data.pix_copia_cola || data.copiaCola || '',
+      qrCode: data.qr_code_imagem || data.qr_code || data.qrCode,
+      pixId: data.ID || data.id,
+      transactionId: data.transacao_id || data.depix_transaction_id || data.transaction_id,
+      copiaCola: data.pix || data.qr_code_text || data.pix_copia_cola || data.copiaCola || '',
       expiresAt: data.qr_code_expires_at
     }
   } catch (error) {
