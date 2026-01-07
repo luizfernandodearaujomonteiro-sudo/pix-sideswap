@@ -26,9 +26,11 @@ export function Configuracoes() {
         setWebhookNotificacao(configs.webhook_notificacao || '')
       } else {
         // Revendedor: buscar API key do próprio registro
+        console.log('Buscando config para revendedor ID:', user.id)
         const associadoData = await supabaseRequest(
-          `master_associados?id=eq.${user.id}&select=api_key`
+          `master_associados?id=eq.${user.id}&select=*`
         )
+        console.log('Dados do associado:', associadoData)
         if (associadoData && associadoData[0]) {
           setApiKey(associadoData[0].api_key || '')
         }
@@ -49,11 +51,13 @@ export function Configuracoes() {
         await updateConfiguracao('webhook_notificacao', webhookNotificacao)
       } else {
         // Revendedor: salvar API key no próprio registro
-        await supabaseRequest(
+        console.log('Salvando API key para revendedor ID:', user.id)
+        const result = await supabaseRequest(
           `master_associados?id=eq.${user.id}`,
           'PATCH',
           { api_key: apiKey }
         )
+        console.log('Resultado do save:', result)
       }
       toast.success('Configurações salvas com sucesso!')
     } catch (error) {
